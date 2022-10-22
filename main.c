@@ -3,6 +3,17 @@
 #include <time.h>
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
+
+#define USAGE \
+"Usage: ./main {file | -}\n" \
+"Solve the sudoku specified in file or from stdin.\n" \
+"\n"          \
+"Options:\n"              \
+"   -h, --help       display this message\n"          \
+"\n"              \
+"The first 91 ascii numbers of file or stdin are interpreted as a sudoku,\n"\
+"any other characters are ignored.\n"
 
 uint8_t sudoku[9 * 9];
 
@@ -119,8 +130,9 @@ bool parse(FILE *file) {
 }
 
 int main(int argc, char **argv) {
-    if ((argc != 1) && (argc != 2)) {
-        printf("Usage: sudoku file\n");
+    if (((argc != 1) && (argc != 2))
+        || ((2 == argc) && (0 == strcmp(argv[1], "-h")))) {
+        printf("%s", USAGE);
         return 1;
     }
 
